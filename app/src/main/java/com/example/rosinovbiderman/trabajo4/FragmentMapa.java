@@ -32,7 +32,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class FragmentMapa extends Fragment implements OnMapReadyCallback{
+public class FragmentMapa extends Fragment implements OnMapReadyCallback, View.OnClickListener{
 
     GoogleMap map;
     ArrayList<Ciudad> CiudadesElegidas;
@@ -60,6 +60,11 @@ public class FragmentMapa extends Fragment implements OnMapReadyCallback{
         b2 = (Button) v.findViewById(R.id.btn2);
         b3 = (Button) v.findViewById(R.id.btn3);
         b4 = (Button) v.findViewById(R.id.btn4);
+
+        b1.setOnClickListener(this);
+        b2.setOnClickListener(this);
+        b3.setOnClickListener(this);
+        b4.setOnClickListener(this);
 
         return v;
     }
@@ -146,7 +151,7 @@ public class FragmentMapa extends Fragment implements OnMapReadyCallback{
         }
     }
 
-    /*@Override
+    @Override
     public void onClick(View view) {
         Toast msj;
         switch (view.getId()) {
@@ -183,5 +188,5 @@ public class FragmentMapa extends Fragment implements OnMapReadyCallback{
                 msj.show();
                 break;
         }
-    }*/
+    }
 }
