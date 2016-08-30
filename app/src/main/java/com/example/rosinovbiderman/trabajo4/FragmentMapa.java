@@ -38,6 +38,8 @@ public class FragmentMapa extends Fragment implements OnMapReadyCallback, View.O
     ArrayList<Ciudad> CiudadesElegidas;
     Button b1, b2, b3, b4;
     Ciudad cElegida;
+    public int correctas;
+    public int cantpreg;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,9 @@ public class FragmentMapa extends Fragment implements OnMapReadyCallback, View.O
         b2.setOnClickListener(this);
         b3.setOnClickListener(this);
         b4.setOnClickListener(this);
+
+        correctas = 0;
+        cantpreg = 0;
 
         return v;
     }
@@ -112,8 +117,6 @@ public class FragmentMapa extends Fragment implements OnMapReadyCallback, View.O
             MarkerOptions mo = new MarkerOptions()
                     .position(latLng);
             map.addMarker(mo);
-
-
         }
 
         @Override
@@ -153,40 +156,48 @@ public class FragmentMapa extends Fragment implements OnMapReadyCallback, View.O
 
     @Override
     public void onClick(View view) {
-        Toast msj;
         switch (view.getId()) {
             case R.id.btn1:
                 if (b1.getText() == cElegida.name) {
-                    msj = Toast.makeText(this.getContext(), "Correcto!", Toast.LENGTH_SHORT);
+                    Log.d("Correcto", "Correcto!");
+                    correctas++;
                 } else {
-                    msj = Toast.makeText(this.getContext(), "Incorrecto, intentalo otra vez", Toast.LENGTH_SHORT);
+                    Log.d("Incorrecto", "Incorrecto");
                 }
-                msj.show();
                 break;
             case R.id.btn2:
                 if (b2.getText() == cElegida.name) {
-                    msj = Toast.makeText(this.getContext(), "Correcto!", Toast.LENGTH_SHORT);
+                    Log.d("Correcto", "Correcto!");
+                    correctas++;
                 } else {
-                    msj = Toast.makeText(this.getContext(), "Incorrecto, intentalo otra vez", Toast.LENGTH_SHORT);
+                    Log.d("Incorrecto", "Incorrecto");
                 }
-                msj.show();
                 break;
             case R.id.btn3:
                 if (b3.getText() == cElegida.name) {
-                    msj = Toast.makeText(this.getContext(), "Correcto!", Toast.LENGTH_SHORT);
+                    Log.d("Correcto", "Correcto!");
+                    correctas++;
                 } else {
-                    msj = Toast.makeText(this.getContext(), "Incorrecto, intentalo otra vez", Toast.LENGTH_SHORT);
+                    Log.d("Incorrecto", "Incorrecto");
                 }
-                msj.show();
                 break;
             case R.id.btn4:
                 if (b4.getText() == cElegida.name) {
-                    msj = Toast.makeText(this.getContext(), "Correcto!", Toast.LENGTH_SHORT);
+                    Log.d("Correcto", "Correcto!");
+                    correctas++;
                 } else {
-                    msj = Toast.makeText(this.getContext(), "Incorrecto, intentalo otra vez", Toast.LENGTH_SHORT);
+                    Log.d("Incorrecto", "Incorrecto");
                 }
-                msj.show();
                 break;
         }
+        cantpreg++;
+    }
+
+    public int getCorrectas() {
+        return correctas;
+    }
+
+    public int getCantpreg() {
+        return cantpreg;
     }
 }

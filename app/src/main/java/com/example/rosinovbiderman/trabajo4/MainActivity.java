@@ -8,9 +8,10 @@ import android.view.View;
 import android.widget.ImageButton;
 
 public class MainActivity extends AppCompatActivity {
-    ImageButton juego, result;
     FragmentMapa fragmentJuego;
     FragmentResult fragmentResult;
+    int correctas;
+    int cantpreg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +20,9 @@ public class MainActivity extends AppCompatActivity {
 
         fragmentJuego = new FragmentMapa();
         fragmentResult = new FragmentResult();
+        
+        setCorrectas(fragmentJuego.getCorrectas());
+        setCantpreg(fragmentJuego.getCantpreg());
     }
 
     public void MostrarJuego(View v){
@@ -33,5 +37,21 @@ public class MainActivity extends AppCompatActivity {
         fm.beginTransaction()
                 .replace(R.id.contenedorPrincipal, fragmentResult)
                 .commit();
+    }
+
+    public int getCorrectas() {
+        return correctas;
+    }
+
+    public void setCorrectas(int correct){
+        correctas = correct;
+    }
+
+    public int getCantpreg() {
+        return cantpreg;
+    }
+
+    public void setCantpreg(int preguntas){
+        cantpreg = preguntas;
     }
 }
