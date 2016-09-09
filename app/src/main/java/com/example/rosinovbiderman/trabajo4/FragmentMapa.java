@@ -18,6 +18,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
@@ -35,11 +36,14 @@ import okhttp3.Response;
 public class FragmentMapa extends Fragment implements OnMapReadyCallback, View.OnClickListener{
 
     GoogleMap map;
+    Marker marker;
     ArrayList<Ciudad> CiudadesElegidas;
     Button b1, b2, b3, b4;
     Ciudad cElegida;
     public int correctas;
     public int cantpreg;
+    ArrayList<Ciudad> ciudades;
+    MainActivity ma;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,8 +72,11 @@ public class FragmentMapa extends Fragment implements OnMapReadyCallback, View.O
         b3.setOnClickListener(this);
         b4.setOnClickListener(this);
 
+        ma = (MainActivity)getActivity();
+
         correctas = 0;
         cantpreg = 0;
+        ciudades = new ArrayList<Ciudad>();
 
         return v;
     }
@@ -81,42 +88,52 @@ public class FragmentMapa extends Fragment implements OnMapReadyCallback, View.O
         map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
     }
 
+    public void randomizar(){
+        Random rand = new Random();
+        CiudadesElegidas = new ArrayList<>();
+
+        Ciudad c1 = ciudades.get(rand.nextInt(ciudades.size()));
+        CiudadesElegidas.add(c1);
+        b1.setText(c1.name);
+        ciudades.remove(c1);
+        Ciudad c2 = ciudades.get(rand.nextInt(ciudades.size()));
+        CiudadesElegidas.add(c2);
+        b2.setText(c2.name);
+        ciudades.remove(c2);
+        Ciudad c3 = ciudades.get(rand.nextInt(ciudades.size()));
+        CiudadesElegidas.add(c3);
+        b3.setText(c3.name);
+        ciudades.remove(c3);
+        Ciudad c4 = ciudades.get(rand.nextInt(ciudades.size()));
+        CiudadesElegidas.add(c4);
+        b4.setText(c4.name);
+        ciudades.remove(c4);
+
+        cElegida = CiudadesElegidas.get(rand.nextInt(CiudadesElegidas.size()));
+
+        LatLng latLng = new LatLng(cElegida.lat,cElegida.lng);
+        CameraUpdate ciudad = CameraUpdateFactory.newLatLng(latLng);
+        map.moveCamera(ciudad);
+
+        CameraUpdate zoom = CameraUpdateFactory.zoomTo(2);
+        map.animateCamera(zoom);
+
+        MarkerOptions mo = new MarkerOptions()
+                .position(latLng);
+        marker = map.addMarker(mo);
+    }
+
+
     private class GeoGameTask extends AsyncTask<String, Void, ArrayList<Ciudad>>{
         @Override
         protected void onPostExecute(ArrayList<Ciudad> Ciudades) {
             super.onPostExecute(Ciudades);
-            Random rand = new Random();
-            CiudadesElegidas = new ArrayList<>();
 
-            Ciudad c1 = Ciudades.get(rand.nextInt(Ciudades.size()));
-            CiudadesElegidas.add(c1);
-            b1.setText(c1.name);
-            Ciudades.remove(c1);
-            Ciudad c2 = Ciudades.get(rand.nextInt(Ciudades.size()));
-            CiudadesElegidas.add(c2);
-            b2.setText(c2.name);
-            Ciudades.remove(c2);
-            Ciudad c3 = Ciudades.get(rand.nextInt(Ciudades.size()));
-            CiudadesElegidas.add(c3);
-            b3.setText(c3.name);
-            Ciudades.remove(c3);
-            Ciudad c4 = Ciudades.get(rand.nextInt(Ciudades.size()));
-            CiudadesElegidas.add(c4);
-            b4.setText(c4.name);
-            Ciudades.remove(c4);
+            for(Ciudad ciu : Ciudades){
+                ciudades.add(ciu);
+            }
 
-            cElegida = CiudadesElegidas.get(rand.nextInt(CiudadesElegidas.size()));
-
-            LatLng latLng = new LatLng(cElegida.lat,cElegida.lng);
-            CameraUpdate ciudad = CameraUpdateFactory.newLatLng(latLng);
-            map.moveCamera(ciudad);
-
-            CameraUpdate zoom = CameraUpdateFactory.zoomTo(2);
-            map.animateCamera(zoom);
-
-            MarkerOptions mo = new MarkerOptions()
-                    .position(latLng);
-            map.addMarker(mo);
+            randomizar();
         }
 
         @Override
@@ -156,48 +173,56 @@ public class FragmentMapa extends Fragment implements OnMapReadyCallback, View.O
 
     @Override
     public void onClick(View view) {
+        Toast msj;
         switch (view.getId()) {
             case R.id.btn1:
                 if (b1.getText() == cElegida.name) {
-                    Log.d("Correcto", "Correcto!");
+                    msj = Toast.makeText(getContext(), "Correcto!!", Toast.LENGTH_SHORT);
                     correctas++;
                 } else {
-                    Log.d("Incorrecto", "Incorrecto");
+                    msj = Toast.makeText(getContext(), "Incorrecto, era " + cElegida.name, Toast.LENGTH_SHORT);
                 }
+                msj.show();
+                marker.remove();
+                randomizar();
                 break;
             case R.id.btn2:
                 if (b2.getText() == cElegida.name) {
-                    Log.d("Correcto", "Correcto!");
+                    msj = Toast.makeText(getContext(), "Correcto!!", Toast.LENGTH_SHORT);
                     correctas++;
                 } else {
-                    Log.d("Incorrecto", "Incorrecto");
+                    msj = Toast.makeText(getContext(), "Incorrecto, era " + cElegida.name, Toast.LENGTH_SHORT);
                 }
+                msj.show();
+                marker.remove();
+                randomizar();
                 break;
             case R.id.btn3:
                 if (b3.getText() == cElegida.name) {
-                    Log.d("Correcto", "Correcto!");
+                    msj = Toast.makeText(getContext(), "Correcto!!", Toast.LENGTH_SHORT);
                     correctas++;
+
                 } else {
-                    Log.d("Incorrecto", "Incorrecto");
+                    msj = Toast.makeText(getContext(), "Incorrecto, era " + cElegida.name, Toast.LENGTH_SHORT);
                 }
+                msj.show();
+                marker.remove();
+                randomizar();
                 break;
             case R.id.btn4:
                 if (b4.getText() == cElegida.name) {
-                    Log.d("Correcto", "Correcto!");
+                    msj = Toast.makeText(getContext(), "Correcto!!", Toast.LENGTH_SHORT);
                     correctas++;
                 } else {
-                    Log.d("Incorrecto", "Incorrecto");
+                    msj = Toast.makeText(getContext(), "Incorrecto, era " + cElegida.name, Toast.LENGTH_SHORT);
                 }
+                ma.setCorrectas(correctas);
+                msj.show();
+                marker.remove();
+                randomizar();
                 break;
         }
         cantpreg++;
-    }
-
-    public int getCorrectas() {
-        return correctas;
-    }
-
-    public int getCantpreg() {
-        return cantpreg;
+        ma.setCantpreg(cantpreg);
     }
 }

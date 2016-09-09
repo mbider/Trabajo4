@@ -4,14 +4,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
 public class MainActivity extends AppCompatActivity {
     FragmentMapa fragmentJuego;
     FragmentResult fragmentResult;
-    int correctas;
-    int cantpreg;
+    public int correctas;
+    public int cantpreg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,8 +22,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentJuego = new FragmentMapa();
         fragmentResult = new FragmentResult();
         
-        setCorrectas(fragmentJuego.getCorrectas());
-        setCantpreg(fragmentJuego.getCantpreg());
+
     }
 
     public void MostrarJuego(View v){
@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         fm.beginTransaction()
                 .replace(R.id.contenedorPrincipal, fragmentResult)
                 .commit();
+        Log.d("lol", String.valueOf(correctas));
     }
 
     public int getCorrectas() {

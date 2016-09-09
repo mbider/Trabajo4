@@ -13,4 +13,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/correctas"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/reset"
+        android:text="Reiniciar"/>
+
 </LinearLayout>

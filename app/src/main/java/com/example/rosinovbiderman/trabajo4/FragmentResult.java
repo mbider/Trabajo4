@@ -6,12 +6,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
-public class FragmentResult extends Fragment {
+public class FragmentResult extends Fragment implements View.OnClickListener{
 
     TextView respcorrectas;
     TextView cantpreguntas;
+    Button reiniciar;
     int correctas;
     int cantpreg;
     MainActivity ma;
@@ -28,8 +30,10 @@ public class FragmentResult extends Fragment {
 
         respcorrectas = (TextView) v.findViewById(R.id.correctas);
         cantpreguntas = (TextView) v.findViewById(R.id.totalpreguntas);
+        reiniciar = (Button) v.findViewById(R.id.reset);
 
-        ma = new MainActivity();
+        ma = (MainActivity)getActivity();
+        reiniciar.setOnClickListener(this);
 
         correctas = ma.getCorrectas();
         cantpreg = ma.getCantpreg();
@@ -37,5 +41,13 @@ public class FragmentResult extends Fragment {
         respcorrectas.setText("Respuestas correctas: " + String.valueOf(correctas));
         cantpreguntas.setText("Cantidad de preguntas respondidas: " + String.valueOf(cantpreg));
         return v;
+    }
+
+    @Override
+    public void onClick(View view) {
+        correctas = 0;
+        cantpreg = 0;
+        respcorrectas.setText("Respuestas correctas: " + String.valueOf(correctas));
+        cantpreguntas.setText("Cantidad de preguntas respondidas: " + String.valueOf(cantpreg));
     }
 }
